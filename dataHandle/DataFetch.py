@@ -8,22 +8,24 @@ class DataHandle(object):
 		fileDir = os.path.dirname(os.getcwd())
 		# fileDir = os.path.dirname(fileDir)
 		self.dataDir = os.path.join(fileDir, 'data', self.filename)
+		self.item = {}
 
 
 	def loadData(self):
 		with open(self.dataDir, 'r') as file:
-			for line in file.readline():
+			for line in file.readlines():
 				data = line.split('\t')
-				print data
-				# userId = data[0]
-				# itemId = data[1]
-				# rate = data[2]
-				# item_rate[itemId] = rate
-				# self.item[userId] = item_rate
-				# print self.item[userId]
+				# print data
+				userId = data[0]
+				itemId = data[1]
+				rate = data[2]
+				item_rate = {}
+				item_rate[itemId] = rate
+				self.item[userId] = item_rate
+				print userId, self.item[userId]
 
 def main():
-	data = DataHandle('u.data')
+	data = DataHandle('sample.data')
 	data.loadData()
 
 if __name__ == '__main__':

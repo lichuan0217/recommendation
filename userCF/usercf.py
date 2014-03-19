@@ -1,6 +1,8 @@
 import math
 
 # 余弦相似度计算
+
+
 def UserSimilarity(train):
     # build inverse table for item_users
     item_users = dict()
@@ -19,7 +21,7 @@ def UserSimilarity(train):
             for v in users:
                 if u == v:
                     continue
-                c[u][v] += 1
+                C[u][v] += 1
 
     # calculate final similarity matrix W
     W = dict()
@@ -29,12 +31,14 @@ def UserSimilarity(train):
 
     return W
 
-def Recommend(user, train, W):
-	rank = dict()
-	interacted_items = train[user]
-	for v, wuv in sorted(W[user].items(), key = lambda item : item[1], reverse=True)[0:K]:
-		for i, rvi in train[v].items():
-			if i in interacted_items:
-				#filter the items that the user has interacted before
-				continue
-			rank[i] += wuv * rvi
+
+def Recommend(user, train, W, K):
+    rank = dict()
+    interacted_items = train[user]
+    for v, wuv in sorted(W[user].items(), key=lambda item: item[1], reverse=True)[0:K]:
+        for i, rvi in train[v].items():
+            if i in interacted_items:
+                # filter the items that the user has interacted before
+                continue
+            rank[i] += wuv * rvi
+    return rank
