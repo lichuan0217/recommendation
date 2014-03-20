@@ -1,8 +1,6 @@
 import math
 
 # 余弦相似度计算
-
-
 def UserSimilarity(train):
     # build inverse table for item_users
     item_users = dict()
