@@ -1,4 +1,5 @@
 import math
+import pdb
 
 def ItemSimilarity(train):
 	# calculate co-rated users between Items 
@@ -6,16 +7,21 @@ def ItemSimilarity(train):
 	N = dict()
 	for u, items in train.items():
 		for i in items:
+			N.setdefault(i, 0)
 			N[i] += 1
 			for j in items:
 				if i == j:
 					continue
+				C.setdefault(i, {})
+				C[i].setdefault(j, 0)
 				C[i][j] += 1
 
 	#calculate final similarity matrix W
 	W = dict()
 	for i, related_items in C.items():
 		for j, cij in related_items.items():
+			W.setdefault(i, {})
+			W[i].setdefault(j, 0.0)
 			W[i][j] = cij / math.sqrt(N[i] * N[j])
 
 	return W
@@ -25,7 +31,7 @@ def Recommendation(train, user_id, W, K):
 	ru = train[user_id]
 	for i, pi in ru.items():
 		for j, wj in sorted(W[i].items(), key=lambda item: item[1], reverse=True)[0:K]:
-			if j in ru:
+			if j in ru.items():
 				continue
 			rank[j] += pi * wj
 	return rank
@@ -43,4 +49,5 @@ def main():
 	print W
 
 if __name__ == '__main__':
+	pdb.set_trace()
 	main()
